@@ -3,6 +3,8 @@
 Vous êtes ici sur le repository de la partie back de notre application.
 Il s'agit d'une API Rest basé sur Spring Boot et h2.
 
+modif pour tester les pipelines
+
 ## Installation classique
 
 Prerequis : Avoir installé Java 17 et Maven
