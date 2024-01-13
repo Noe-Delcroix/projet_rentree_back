@@ -12,17 +12,12 @@ COPY pom.xml ./
 COPY run.sh ./
 
 # Copiez tout le contenu du projet Maven dans le conteneur
-COPY src ./src
-
-# Exécutez clean et compile en utilisant Maven et Java 17
-RUN mvn clean install
-
-RUN mvn clean package
+COPY . .
 
 RUN chmod +x /usr/src/app/run.sh
 
 RUN dos2unix /usr/src/app/run.sh
 
 EXPOSE 8080
-# Commande par défaut pour exécuter l'application (vous pouvez la personnaliser)
-CMD ["/usr/src/app/run.sh"]
+# Commande par défaut pour exécuter l'application (remplacée par une commande qui ne fait rien)
+CMD tail -f /dev/null
