@@ -3,6 +3,26 @@
 # Crée un réseau Docker personnalisé
 docker network create mon-reseau
 
+env_file="../env.env"
+
+env_value=""
+# Vérifier si le fichier existe
+if [ -f "$env_file" ]; then
+    # Utiliser grep pour rechercher la ligne contenant la variable env
+    env_line=$(grep '^env=' "$env_file")
+
+    # Vérifier si la ligne a été trouvée
+    if [ -n "$env_line" ]; then
+        # Utiliser cut pour extraire la valeur de la variable env
+        env_value=$(echo "$env_line" | cut -d'=' -f2)
+        echo "La valeur de 'env' est : $env_value"
+    else
+        echo "La variable 'env' n'a pas été trouvée dans $env_file."
+    fi
+else
+    echo "Le fichier $env_file n'existe pas."
+fi
+
 adminUsername="admin"
 adminPassword="admin"
 newPassword="admin1"
@@ -77,7 +97,9 @@ sonarqubeURL="http://$sonarqubeIP:9000"
 echo "SonarQube URL: $sonarqubeURL"
 echo "Sonar Token: $sonarToken"
 
-dockerCommand="docker exec -e SONAR_HOST_URL=$sonarqubeURL -e SONAR_TOKEN=$sonarToken projet-rentree-back mvn clean verify sonar:sonar"
+nomConteneur="projet-rentree-back-$env_value"
+
+dockerCommand="docker exec -e SONAR_HOST_URL=$sonarqubeURL -e SONAR_TOKEN=$sonarToken $nomConteneur mvn clean verify sonar:sonar"
 echo "Exécution de la commande Docker pour l'analyse SonarQube"
 eval $dockerCommand
 

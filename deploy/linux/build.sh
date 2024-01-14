@@ -1,4 +1,8 @@
 #!/bin/bash
+
+echo "set env"
+./set_env.sh
+
 # Chemin vers le fichier env.env
 env_file="../env.env"
 
@@ -21,7 +25,7 @@ else
 fi
 
 # Nom du conteneur Docker
-nomConteneur="projet-rentree-back"
+nomConteneur="projet-rentree-back-$env_value"
 
 # Vérifie si un conteneur avec le même nom existe déjà et le supprime le cas échéant
 conteneurExistant=$(docker ps -a -q -f name=^/${nomConteneur}$)
@@ -35,7 +39,7 @@ docker build ../../. -t projet-rentree-back:"$env_value"
 echo "Image Docker construite"
 
 # Lance le conteneur Docker du projet Maven sur le réseau personnalisé, le build est lancé automatiquement
-docker run --name $nomConteneur --network mon-reseau -p 8080:8080 -d projet-rentree-back:"$env_value"
+docker run --name $nomConteneur-"$env_value" --network mon-reseau -p 8080:8080 -d projet-rentree-back:"$env_value"
 echo "Conteneur Docker lancé"
 
 # Commande à exécuter dans le conteneur
