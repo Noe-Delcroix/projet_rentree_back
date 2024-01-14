@@ -35,7 +35,7 @@ docker build ../../. -t projet-rentree-back:"$env_value"
 echo "Image Docker construite"
 
 # Lance le conteneur Docker du projet Maven sur le réseau personnalisé, le build est lancé automatiquement
-docker run --name $nomConteneur --network mon-reseau -p 8080:8080 -d projet-rentree-back-"$env_value"
+docker run --name $nomConteneur --network mon-reseau -p 8080:8080 -d projet-rentree-back:"$env_value"
 echo "Conteneur Docker lancé"
 
 # Commande à exécuter dans le conteneur
