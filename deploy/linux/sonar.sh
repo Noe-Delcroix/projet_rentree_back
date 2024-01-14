@@ -65,8 +65,33 @@ projectVisibility="public"
 # URL pour interroger les projets existants
 sonarqubeProjectsQueryURL="$sonarqubeURL/api/projects/search"
 
-# ...
+# Requête pour vérifier si le projet existe
+projectsResponse=$(curl -s -u "${adminUsername}:${newPassword}" "$sonarqubeProjectsQueryURL?projects=$projectKey")
 
+# Extraire la présence du projet à partir de la réponse
+projectExists=$(echo $projectsResponse | grep -o "\"key\":\"$projectKey\"")
+
+if [ -z "$projectExists" ]; then
+    echo "Le projet '$projectName' n'existe pas. Création du projet en cours."
+
+    # URL pour la création de projet
+    sonarqubeCreateProjectURL="$sonarqubeURL/api/projects/create"
+
+    # Données pour la création de projet
+    projectCreateData="name=$projectName&project=$projectKey&visibility=$projectVisibility"
+
+    # Envoi de la requête POST pour créer le projet
+    createProjectResponse=$(curl -s -o /dev/null -w "%{http_code}" -u "${adminUsername}:${newPassword}" -X POST -d "$projectCreateData" "$sonarqubeCreateProjectURL")
+
+    if [ "$createProjectResponse" -eq "200" ]; then
+        echo "Projet '$projectName' créé avec succès dans SonarQube."
+    else
+        echo "Erreur lors de la création du projet '$projectName'. Réponse HTTP: $createProjectResponse"
+        exit 1
+    fi
+else
+    echo "Le projet '$projectName' existe déjà dans SonarQube."
+fi
 # Génération d'un nom de token aléatoire
 generate_random_string() {
     cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 1

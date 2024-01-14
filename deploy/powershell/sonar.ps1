@@ -83,7 +83,34 @@ $projectVisibility = "public" # Peut être "public" ou "private"
 # URL pour interroger les projets existants
 $sonarqubeProjectsQueryURL = $sonarqubeURL + "/api/projects/search"
 
-# ...
+# URL pour la création de projet
+$sonarqubeCreateProjectURL = $sonarqubeURL + "/api/projects/create"
+
+# Données pour la création de projet
+$projectCreatePayload = @{
+    "name" = $projectName
+    "project" = $projectKey
+    "visibility" = $projectVisibility
+}
+
+# Convertit le payload en JSON
+$projectCreateJson = $projectCreatePayload | ConvertTo-Json
+
+# Crée le projet dans SonarQube si celui-ci n'existe pas
+if ($null -eq $projects) {
+    Write-Host "Création du projet '$projectName' dans SonarQube."
+    try {
+        # Envoi de la requête POST pour créer le projet
+        $createProjectResponse = Invoke-RestMethod -Uri $sonarqubeCreateProjectURL -Method Post -Headers $headers -ContentType "application/json" -Body $projectCreateJson
+        Write-Host "Projet '$projectName' créé avec succès dans SonarQube."
+    } catch {
+        Write-Host "Erreur lors de la création du projet '$projectName' : $_"
+        exit
+    }
+} else {
+    Write-Host "Le projet '$projectName' existe déjà dans SonarQube."
+}
+
 
 try {
     $projectsResponse = Invoke-RestMethod -Uri $sonarqubeProjectsQueryURL -Method Get -Headers $headers
