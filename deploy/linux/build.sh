@@ -26,7 +26,7 @@ else
 fi
 
 
-if [ "$env_value" = "green" ]; then
+if [ "$env_value" = "blue" ]; then
     port=8081
 fi
 #modiife le port dans le fichier application.properties
