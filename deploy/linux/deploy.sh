@@ -39,3 +39,5 @@ else
     echo "La commande a échoué dans le conteneur."
     exit $?
 fi
+
+./remove_docker.sh
