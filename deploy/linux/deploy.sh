@@ -41,4 +41,4 @@ else
 fi
 
 ./remove_docker.sh
-./change_de_port_front.sh
+./changement_de_port_front.sh
