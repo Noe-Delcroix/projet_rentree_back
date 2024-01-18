@@ -28,6 +28,23 @@ adminPassword="admin"
 newPassword="admin1"
 sonarqubeURL="http://localhost:9000"
 
+# Nom du conteneur SonarQube
+nom_du_conteneur="sonarqube"
+
+# Vérifier si le conteneur existe
+if docker ps -a --filter "name=$nom_du_conteneur" | grep -q "$nom_du_conteneur"; then
+    # Vérifier si le conteneur est arrêté
+    if docker ps --filter "name=$nom_du_conteneur" | grep -q "$nom_du_conteneur"; then
+        echo "Le conteneur $nom_du_conteneur est déjà en cours d'exécution."
+    else
+        # Démarrer le conteneur
+        docker start "$nom_du_conteneur"
+        echo "Conteneur $nom_du_conteneur démarré avec succès."
+    fi
+else
+    echo "Le conteneur $nom_du_conteneur n'existe pas."
+fi
+
 # Vérifie si un conteneur SonarQube est déjà lancé sur les mêmes ports
 existingContainer=$(docker ps --filter "publish=9000" --filter "publish=9092" -q)
 if [ -z "$existingContainer" ]; then
