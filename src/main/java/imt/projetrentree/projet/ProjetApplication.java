@@ -20,13 +20,13 @@ import java.util.List;
 @EnableAsync
 public class ProjetApplication {
     @Autowired
-    private DishRepository dishRepository;
+    DishRepository dishRepository;
 
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
     public static final String APP_NAME = "DeliveCROUS";
 
@@ -52,7 +52,7 @@ public class ProjetApplication {
         saveAdmin();
     }
 
-    private void saveUserIfNotExists(String email, String password, String firstname, String lastname, String address) {
+    void saveUserIfNotExists(String email, String password, String firstname, String lastname, String address) {
         if (!userRepository.existsByEmail(email)) {
             UserCreationDTO user = UserCreationDTO.builder()
                     .email(email)
@@ -80,7 +80,7 @@ public class ProjetApplication {
         }
     }
 
-    private void saveDishIfNotExists(String name, String image, String description, String alergens, double price, List<DishTag> dishTags, DishDiet dishDiet) {
+    void saveDishIfNotExists(String name, String image, String description, String alergens, double price, List<DishTag> dishTags, DishDiet dishDiet) {
         if (dishRepository.findByName(name).isEmpty()) {
             Dish dish = Dish.builder()
                     .name(name)
