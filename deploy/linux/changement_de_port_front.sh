@@ -22,7 +22,7 @@ else
 fi
 
 # Nom recherché
-search_name="projet-rentree-back"
+search_name="projet-rentree-front"
 
 # Exécuter "docker ps" pour lister les conteneurs en cours d'exécution
 # Utiliser "grep" pour filtrer les résultats par le nom du conteneur
