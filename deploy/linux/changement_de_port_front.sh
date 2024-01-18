@@ -22,23 +22,12 @@ else
 fi
 
 
-# Nom du conteneur Docker
-nomConteneur="projet-rentree-back-$env_value"
-
-# Commande à exécuter dans le conteneur
-commande="/usr/src/app/run.sh"
-
-# Exécute la commande dans le conteneur Docker
-echo "Exécution de la commande dans le conteneur Docker : $nomConteneur"
-docker exec "$nomConteneur" $commande
-
-# Vérifie le code de retour de la commande
-if [ $? -eq 0 ]; then
-    echo "La commande a été exécutée avec succès dans le conteneur."
+if [ "$env_value" = "blue" ]; then
+    docker exec -it projet-rentree-front-blue chmod u+x ./change_back_port.sh
+    docker exec -it projet-rentree-front-blue ./change_back_port.sh 8081
 else
-    echo "La commande a échoué dans le conteneur."
-    exit $?
+    docker exec -it projet-rentree-front-green chmod u+x ./change_back_port.sh
+    docker exec -it projet-rentree-front-green ./change_back_port.sh 8080
 fi
 
-./remove_docker.sh
-./change_de_port_front.sh
+
