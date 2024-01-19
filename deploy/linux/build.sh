@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "set env"
+chmod u+x ./set_env.sh
 ./set_env.sh
 
 # Chemin vers le fichier env.env

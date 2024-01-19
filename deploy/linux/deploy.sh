@@ -39,6 +39,7 @@ else
     echo "La commande a échoué dans le conteneur."
     exit $?
 fi
-
+chmod u+x ./remove_docker.sh
+chmod u+x ./changement_de_port_front.sh
 ./remove_docker.sh
 ./changement_de_port_front.sh
