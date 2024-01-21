@@ -120,7 +120,15 @@ if [ -z "$projectExists" ]; then
     projectCreateData="name=$projectName&project=$projectKey&visibility=$projectVisibility"
 
     # Envoi de la requête POST pour créer le projet
-    createProjectResponse=$(curl -s -o /dev/null -w "%{http_code}" -u "${adminUsername}:${newPassword}" -X POST -d "$projectCreateData" "$sonarqubeCreateProjectURL")
+    createProjectResponse=$(curl -s -u "${adminUsername}:${newPassword}" -X POST -d "$projectCreateData" "$sonarqubeCreateProjectURL")
+    createProjectHttpStatus=$(echo "$createProjectResponse" | grep -oP '(?<=http_status":)\d+')
+
+    if [ "$createProjectHttpStatus" -eq "200" ]; then
+        echo "Projet '$projectName' créé avec succès dans SonarQube."
+    else
+        echo "Erreur lors de la création du projet '$projectName'. Réponse: $createProjectResponse"
+        exit 1
+    fi
 
     if [ "$createProjectResponse" -eq "200" ]; then
         echo "Projet '$projectName' créé avec succès dans SonarQube."
