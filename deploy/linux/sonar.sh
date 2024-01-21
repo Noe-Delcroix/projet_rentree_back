@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Crée un réseau Docker personnalisé
-docker network create mon-reseau
-
 env_file="../env.env"
 
 env_value=""
