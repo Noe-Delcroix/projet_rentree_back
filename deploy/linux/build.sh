@@ -1,4 +1,7 @@
 #!/bin/bash
+
+network_name="mon-reseau"
+
 # Vérifier si le réseau Docker existe déjà
 if ! docker network inspect $network_name >/dev/null 2>&1; then
     # Le réseau n'existe pas, le créer
