@@ -45,10 +45,10 @@ else
     else
         if [ "$back_env_value" = "green" ]; then
             docker exec projet_rentree_front_green chmod u+x ./change_back_port.sh
-            docker exec projet_rentree_front_green ./change_back_port.sh 8081
+            docker exec projet_rentree_front_green ./change_back_port.sh 8080
         else
             docker exec projet_rentree_front_green chmod u+x ./change_back_port.sh
-            docker exec projet_rentree_front_green ./change_back_port.sh 8080
+            docker exec projet_rentree_front_green ./change_back_port.sh 8081
         fi
     fi
 fi
