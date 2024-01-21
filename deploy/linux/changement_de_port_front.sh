@@ -34,8 +34,8 @@ if [ -z "$front_env_value" ]; then
 else
     echo "Le dernier mot du nom du conteneur est : $front_env_value"
 
-    if [ "$front_env_value" = "blue" ]; then
-        if [ "$back_env_value" = "blue" ]; then
+    if [ "$front_env_value" = "projet_rentree_front_blue" ]; then
+        if [ "$back_env_value" = "projet_rentree_back_blue" ]; then
             docker exec projet_rentree_front_blue chmod u+x ./change_back_port.sh
             docker exec projet_rentree_front_blue ./change_back_port.sh 8081
         else
@@ -43,7 +43,7 @@ else
             docker exec projet_rentree_front_blue ./change_back_port.sh 8080
         fi
     else
-        if [ "$back_env_value" = "blue" ]; then
+        if [ "$back_env_value" = "projet_rentree_back_blue" ]; then
             docker exec projet_rentree_front_green chmod u+x ./change_back_port.sh
             docker exec projet_rentree_front_green ./change_back_port.sh 8081
         else
