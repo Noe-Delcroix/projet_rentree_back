@@ -1,4 +1,12 @@
 #!/bin/bash
+# Vérifier si le réseau Docker existe déjà
+if ! docker network inspect $network_name >/dev/null 2>&1; then
+    # Le réseau n'existe pas, le créer
+    docker network create $network_name
+    echo "Réseau Docker '$network_name' créé avec succès."
+else
+    echo "Le réseau Docker '$network_name' existe déjà."
+fi
 
 echo "set env"
 chmod u+x ./set_env.sh
