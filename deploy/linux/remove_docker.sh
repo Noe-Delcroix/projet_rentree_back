@@ -21,9 +21,9 @@ fi
 nom_du_conteneur_inverse=""
 
 if [ "$env_value" = "blue" ]; then
-    nom_du_conteneur_inverse="projet-rentree-back-green"
+    nom_du_conteneur_inverse="projet_rentree_back_green"
 else
-    nom_du_conteneur_inverse="projet-rentree-back-blue"
+    nom_du_conteneur_inverse="projet_rentree_back_blue"
 fi
 
 # Vérifier si le conteneur existe
@@ -40,9 +40,9 @@ fi
 # Vérifier la valeur de env_value et supprimer l'image en conséquence
 image_name=""
 if [ "$env_value" == "blue" ]; then
-    image_name="projet-rentree-back:green"  # Remplacez par le nom de l'image avec le tag "green" que vous souhaitez supprimer
+    image_name="projet_rentree_back:green"  # Remplacez par le nom de l'image avec le tag "green" que vous souhaitez supprimer
 elif [ "$env_value" == "green" ]; then
-    image_name="projet-rentree-back:blue"  # Remplacez par le nom de l'image avec le tag "blue" que vous souhaitez supprimer
+    image_name="projet_rentree_back:blue"  # Remplacez par le nom de l'image avec le tag "blue" que vous souhaitez supprimer
 else
     echo "La valeur de env_value n'est ni 'blue' ni 'green'. Aucune image n'a été supprimée."
     exit 1

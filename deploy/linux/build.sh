@@ -47,7 +47,8 @@ sed -i "s/^server.port=.*$/server.port=$port/" "$app_properties_file"
 echo "Fichier application.properties mis à jour avec le port $port"
 
 # Nom du conteneur Docker
-nomConteneur="projet-rentree-back-$env_value"
+
+nomConteneur="projet_rentree_back_$env_value"
 
 # Vérifie si un conteneur avec le même nom existe déjà et le supprime le cas échéant
 conteneurExistant=$(docker ps -a -q -f name=^/${nomConteneur}$)
@@ -57,11 +58,11 @@ if [ ! -z "$conteneurExistant" ]; then
 fi
 
 # Construit l'image Docker pour le projet Maven
-docker build ../../. -t projet-rentree-back:"$env_value"
+docker build ../../. -t projet_rentree_back:"$env_value"
 echo "Image Docker construite"
 
 # Lance le conteneur Docker du projet Maven sur le réseau personnalisé, le build est lancé automatiquement
-docker run --name $nomConteneur --network mon-reseau -p $port:$port -d projet-rentree-back:"$env_value"
+docker run --name $nomConteneur --network mon-reseau -p $port:$port -d projet_rentree_back:"$env_value"
 echo "Conteneur Docker lancé"
 
 # Commande à exécuter dans le conteneur

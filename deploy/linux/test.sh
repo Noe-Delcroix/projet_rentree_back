@@ -20,7 +20,7 @@ else
     echo "Le fichier $env_file n'existe pas."
 fi
 # Nom du conteneur Docker
-nomConteneur="projet-rentree-back-$env_value"
+nomConteneur="projet_rentree_back_$env_value"
 
 # Commande pour exécuter les tests Maven à l'intérieur du conteneur
 commandeTest="mvn test"

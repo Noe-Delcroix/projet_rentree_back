@@ -23,7 +23,7 @@ fi
 
 
 # Nom du conteneur Docker
-nomConteneur="projet-rentree-back-$env_value"
+nomConteneur="projet_rentree_back_$env_value"
 
 # Commande à exécuter dans le conteneur
 commande="/usr/src/app/run.sh"

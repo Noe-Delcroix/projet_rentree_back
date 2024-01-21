@@ -22,7 +22,7 @@ else
 fi
 
 # Nom recherché
-search_name="projet-rentree-front"
+search_name="projet_rentree_front"
 
 # Exécuter "docker ps" pour lister les conteneurs en cours d'exécution
 # Utiliser "grep" pour filtrer les résultats par le nom du conteneur
@@ -36,19 +36,19 @@ else
 
     if [ "$front_env_value" = "blue" ]; then
         if [ "$back_env_value" = "blue" ]; then
-            docker exec -it projet-rentree-front-blue chmod u+x ./change_back_port.sh
-            docker exec -it projet-rentree-front-blue ./change_back_port.sh 8081
+            docker exec -it projet_rentree_front_blue chmod u+x ./change_back_port.sh
+            docker exec -it projet_rentree_front_blue ./change_back_port.sh 8081
         else
-            docker exec -it projet-rentree-front-blue chmod u+x ./change_back_port.sh
-            docker exec -it projet-rentree-front-blue ./change_back_port.sh 8080
+            docker exec -it projet_rentree_front_blue chmod u+x ./change_back_port.sh
+            docker exec -it projet_rentree_front_blue ./change_back_port.sh 8080
         fi
     else
         if [ "$back_env_value" = "blue" ]; then
-            docker exec -it projet-rentree-front-green chmod u+x ./change_back_port.sh
-            docker exec -it projet-rentree-front-green ./change_back_port.sh 8081
+            docker exec -it projet_rentree_front_green chmod u+x ./change_back_port.sh
+            docker exec -it projet_rentree_front_green ./change_back_port.sh 8081
         else
-            docker exec -it projet-rentree-front-green chmod u+x ./change_back_port.sh
-            docker exec -it projet-rentree-front-green ./change_back_port.sh 8080
+            docker exec -it projet_rentree_front_green chmod u+x ./change_back_port.sh
+            docker exec -it projet_rentree_front_green ./change_back_port.sh 8080
         fi
     fi
 fi
