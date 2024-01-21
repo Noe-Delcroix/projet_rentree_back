@@ -20,11 +20,6 @@ else
     echo "Le fichier $env_file n'existe pas."
 fi
 
-adminUsername="admin"
-adminPassword="admin"
-newPassword="admin1"
-sonarqubeURL="http://localhost:9000"
-
 # Nom du conteneur SonarQube
 nom_du_conteneur="sonarqube"
 
@@ -57,10 +52,40 @@ if [ -z "$existingContainer" ]; then
     echo "On va attendre ensemble 40 sec que SonarQube se lance"
     sleep 40
     echo "SonarQube est maintenant prêt !"
-    curl -u admin:admin -X POST "http://localhost:9000/api/users/change_password?login=admin&previousPassword=admin&password=$newPassword"
 else
     sonarqubeIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sonarqube)
 fi
+
+# Informations d'authentification
+adminUsername="admin"
+adminPassword="admin"
+newPassword="admin1"
+
+# URL de SonarQube
+sonarqubeURL="http://localhost:9000"
+
+# Essayer de se connecter avec le nouveau mot de passe
+echo "Tentative de connexion à SonarQube avec le nouveau mot de passe..."
+testConnectionResponse=$(curl -s -o /dev/null -w "%{http_code}" -u "${adminUsername}:${newPassword}" "${sonarqubeURL}/api/authentication/validate")
+
+# Vérifier la réponse de la tentative de connexion
+if [ "$testConnectionResponse" -eq "200" ]; then
+    echo "Connexion réussie avec le nouveau mot de passe. Pas besoin de changer le mot de passe."
+else
+    echo "Echec de la connexion avec le nouveau mot de passe. Changement de mot de passe en cours..."
+
+    # Changement de mot de passe
+    changePasswordResponse=$(curl -s -o /dev/null -w "%{http_code}" -u "${adminUsername}:${adminPassword}" -X POST "${sonarqubeURL}/api/users/change_password?login=${adminUsername}&previousPassword=${adminPassword}&password=${newPassword}")
+
+    # Vérification de la réponse de la requête de changement de mot de passe
+    if [ "$changePasswordResponse" -eq "200" ]; then
+        echo "Mot de passe changé avec succès."
+    else
+        echo "Erreur lors du changement de mot de passe. Réponse HTTP: $changePasswordResponse"
+        exit 1
+    fi
+fi
+
 
 # Mise à jour des informations d'authentification avec le nouveau mot de passe
 base64AuthInfo=$(echo -n "${adminUsername}:${newPassword}" | base64)
