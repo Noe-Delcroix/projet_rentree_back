@@ -146,22 +146,6 @@ if [ -z "$tokenResponse" ]; then
 fi
 echo "Token généré avec succès"
 
-
-# Préparation du payload pour la requête
-tokenGenerationQueryString="name=$tokenName"
-
-# URL pour la génération du token
-sonarqubeTokenGenerationURL="$sonarqubeURL/api/user_tokens/generate"
-
-# Envoi de la requête
-tokenResponse=$(curl -s -u "${adminUsername}:${newPassword}" -X POST -d "$tokenGenerationQueryString" -H "Content-Type: application/x-www-form-urlencoded" $sonarqubeTokenGenerationURL)
-if [ -z "$tokenResponse
-" ]; then
-echo "Erreur lors de la génération du token"
-exit 1
-fi
-echo "Token généré avec succès"
-
 sonarToken=$(echo "$tokenResponse" | grep -oP '(?<="token":")[^"]*')
 
 sonarqubeURL="http://$sonarqubeIP:9000"
