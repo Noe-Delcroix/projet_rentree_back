@@ -32,6 +32,9 @@ if docker ps -a --filter "name=$nom_du_conteneur" | grep -q "$nom_du_conteneur";
         # Démarrer le conteneur
         docker start "$nom_du_conteneur"
         echo "Conteneur $nom_du_conteneur démarré avec succès."
+        echo "On va attendre ensemble 40 sec que SonarQube se lance"
+        sleep 40
+        echo "SonarQube est maintenant prêt !"
     fi
 else
     echo "Le conteneur $nom_du_conteneur n'existe pas."
