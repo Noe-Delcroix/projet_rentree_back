@@ -78,22 +78,13 @@ else
     echo "SonarQube est déjà en cours d'exécution."
 fi
 
-# Tentative de connexion avec le nouveau mot de passe
-response=$(curl -u "$adminUsername:$newPassword" -o /dev/null -w '%{http_code}' -s "$sonarqubeURL")
-if [ "$response" -eq 200 ]; then
-    echo "Connexion réussie avec le nouveau mot de passe."
-else
-    echo "Échec de la connexion avec le nouveau mot de passe, tentative avec l'ancien mot de passe."
-    response=$(curl -u "$adminUsername:$adminPassword" -o /dev/null -w '%{http_code}' -s "$sonarqubeURL")
-    if [ "$response" -eq 200 ]; then
-        echo "Connexion réussie avec l'ancien mot de passe, changement de mot de passe en cours."
+# Changement de mot de passe
+response=$(curl -s -o /dev/null -w '%{http_code}' -u "$adminUsername:$adminPassword" -X POST "$sonarqubeURL/api/users/change_password?login=admin&previousPassword=admin&password=$newPassword")
 
-        # Changement de mot de passe
-        curl -u "$adminUsername:$adminPassword" -X POST "$sonarqubeURL/api/users/change_password?login=admin&previousPassword=admin&password=$newPassword" && echo "Mot de passe changé avec succès."
-    else
-        echo "Échec de la connexion avec l'ancien mot de passe."
-        exit 1
-    fi
+if [ "$response" -eq 200 ]; then
+    echo "Mot de passe changé avec succès."
+else
+    echo "Mot de passe inchangé."
 fi
 
 # Configuration des paramètres pour la requête de création de projet
